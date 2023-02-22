@@ -1,0 +1,16 @@
+# Kubernetes api version
+apiVersion: v1
+# Type of kubernetes resource: Pod, Deployment, Service
+kind: Service
+# Metadata about the service
+metadata:
+  name: nginx-nodeport
+spec:
+  # Type of service such as clusterIp, nodeport, loadbalancer
+  type: NodePort
+  selector:
+    app: my-nginx
+  ports:
+    - port: 8080
+      targetPort: 80
+      nodePort: 31000

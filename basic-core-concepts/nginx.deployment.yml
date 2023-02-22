@@ -1,0 +1,35 @@
+# Kubernetes api version
+apiVersion: apps/v1
+# Type of kubernetes resource: Pod, Deployment, Service
+kind: Deployment
+# Metadata about the deployment
+metadata:
+  name: my-nginx
+  labels:
+    app: my-nginx
+spec:
+  # Replicas is used to scale pods
+  replicas: 2
+  # Selector is used to select template to use base on labels
+  # https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+  selector:
+    matchLabels:
+      app: my-nginx
+  # Template is used to create a new pod/container (note that the selector matches the label)
+  template:
+    metadata:
+      labels:
+        app: my-nginx
+    spec:
+      containers:
+        - name: my-nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          # Define resources of pod
+          resources:
+            limits:
+              # 128MB
+              memory: "128Mi"
+              # 200 millicpu (0.2 cpu, 20% cpu)
+              cpu: "200m"

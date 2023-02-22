@@ -1,0 +1,16 @@
+# Kubernetes api version
+apiVersion: v1
+# Type of kubernetes resource: Pod, Deployment, Service
+kind: Service
+# Metadata about the service
+metadata:
+  name: nginx-loadbalancer
+spec:
+  # Type of service such as clusterIp, nodeport, loadbalancer
+  type: LoadBalancer
+  selector:
+    app: my-nginx
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 80

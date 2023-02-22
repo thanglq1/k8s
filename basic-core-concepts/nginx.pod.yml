@@ -1,0 +1,34 @@
+# Kubernetes api version
+apiVersion: v1
+# Type of kubernetes resource: Pod, Deployment, Service
+kind: Pod
+# Metadata about the pod
+metadata:
+  name: my-nginx
+  # labels To link resources(Pod, Deployment, Service) to each other. So a deployment or a service could reference this label
+  labels:
+    app: nginx
+    rel: stable
+# Spec/blueprint for the port
+spec:
+  # Information about containers that will run in the pod
+  containers:
+    - name: my-nginx
+      image: nginx:alpine
+      ports:
+        - containerPort: 80
+      # Define live ness probe for health check
+      # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+      livenessProbe:
+        httpGet:
+          # Check on /index.html, port 80
+          path: /index.html
+          port: 80
+        # Wait 15s
+        initialDelaySeconds: 15
+        # Timeout after 2s (default is 1s)
+        timeoutSeconds: 2
+        # Check each 5s (default is 10s)
+        periodSeconds: 5
+        # Allow 1 fail before falling  (default is 3)
+        failureThreshold: 1
