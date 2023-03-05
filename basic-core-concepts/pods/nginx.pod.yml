@@ -7,7 +7,7 @@ metadata:
   name: my-nginx
   # labels To link resources(Pod, Deployment, Service) to each other. So a deployment or a service could reference this label
   labels:
-    app: nginx
+    app: my-nginx
     rel: stable
 # Spec/blueprint for the port
 spec:

@@ -4,6 +4,28 @@
 Basic concepts of kubernets: Node, Pods, Deployments, Services, Storage, Configmap and Secret
 </h4>
 
+## Install Docker in AWS (Amazon linux)
+
+```
+1. sudo yum update -y (update latest soft)
+2. sudo yum install -y docker
+3. sudo service docker start
+```
+
+## Install Docker Compose in AWS (Amazon linux)
+
+```
+1. sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+2. sudo chmod 666 /var/run/docker.sock
+3. sudo chmod +x /usr/local/bin/docker-compose;
+```
+
+## Install k8s (Amazon linux)
+
+```
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+```
+
 ## Get started kubernetes commands
 
 <h6>Check kubernetes version</h6>
@@ -39,7 +61,7 @@ kubectl apply [resource]
 <h6>Delete resource</h6>
 
 ```
-kubectl delete -f [resource-name]
+kubectl delete [resource-name]
 ```
 
 <h6>Forward a port to allow external access</h6>
@@ -140,13 +162,31 @@ kubectl apply -f [deployment-file-name].yml eg: kubectl apply -f nginx.deploymen
 <h6>Delete Deployment</h6>
 
 ```
-kubectl delete deployment [name-of-pod] eg: kubectl delete deployment my-nginx
+kubectl delete deployment [name-of-deployment] eg: kubectl delete deployment my-nginx
 ```
 
 <h6>Get information of Deployment</h6>
 
 ```
 kubectl describe deployment [deployment-name] eg: kubectl describe deployment my-nginx
+```
+
+<h6>Get rollout status of Deployment</h6>
+
+```
+kubectl rollout status deployment [deployment-name] eg: kubectl rollout status deployment my-nginx
+```
+
+<h6>Get history of Deployment</h6>
+
+```
+kubectl rollout history deployment [deployment-name] eg: kubectl rollout history deployment my-nginx
+```
+
+<h6>Rollback Deployment</h6>
+
+```
+kubectl rollout undo deployment [deployment-name] eg: kubectl rollout status deployment my-nginx
 ```
 
 <h6>Scale the Deployment Pods to 5</h6>
@@ -188,7 +228,7 @@ kubectl apply -f [service-file-name].yml eg: kubectl apply -f nginx.deployment.s
 <h6>Delete Service</h6>
 
 ```
-kubectl delete -f [name-of-service] eg: kubectl delete -f my-nginx
+kubectl delete service [name-of-service] eg: kubectl delete -f my-nginx
 ```
 
 <h6>Get information of Service</h6>

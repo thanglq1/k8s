@@ -4,13 +4,15 @@ apiVersion: v1
 kind: Service
 # Metadata about the service
 metadata:
-  name: nginx-loadbalancer
+  name: nginx-clusterip
 spec:
   # Type of service such as clusterIp, nodeport, loadbalancer
-  type: LoadBalancer
+  type: ClusterIP
   selector:
+    # Link service to POD. Need the same POD label
     app: my-nginx
   ports:
-    - name: "8080"
-      port: 8080
+      # port: Port on the service
+    - port: 8080
+      # targetPort: Port running on POD (docker container)
       targetPort: 80

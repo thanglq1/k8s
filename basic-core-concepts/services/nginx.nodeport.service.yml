@@ -1,0 +1,20 @@
+# Kubernetes api version
+apiVersion: v1
+# Type of kubernetes resource: Pod, Deployment, Service
+kind: Service
+# Metadata about the service
+metadata:
+  name: nginx-nodeport
+spec:
+  # Type of service such as clusterIp, nodeport, loadbalancer
+  type: NodePort
+  selector:
+    # Link service to POD. Need the same POD label
+    app: my-nginx
+  ports:
+    # port(required field): Port of Service-NodePort.
+    - port: 8080
+      # targetPort(optional field): Port running on POD (docker container). If we don't provide targetPort then targetPort will be the same port
+      targetPort: 
+      # nodePort(optional): Port of Node (range: 30000-32767). Using as an external port. curl http://192.168.10.1:31000
+      nodePort: 31000
