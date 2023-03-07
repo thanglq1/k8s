@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-webapp-color
+  labels:
+    app: simple-webapp-color
+spec:
+  template:
+    metadata:
+      name: simple-webapp-color
+      labels:
+        name: simple-webapp-color
+    spec:
+      containers:
+        - name: simple-webapp-color
+          image: mmumshad/simple-webapp-color
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                # simple-webapp-config: name of config map defined in app-configmap.yml
+                name: simple-webapp-config
+  replicas: 1
+  selector:
+    matchLabels:
+      name: simple-webapp-color

@@ -246,3 +246,101 @@ apk add curl
 
 curl http://podIp
 ```
+
+## Configmap
+
+<h6>Create configmap without file</h6>
+
+```
+kubectl create configmap [config-name] --from-literal=[key]=[value] eg: kubectl create configmap simple-web-app-config --from-literal=APP_COLOR=blue --from-literal=APP_MODE=prod
+```
+
+<h6>Create configmap from file</h6>
+```
+kubectl create configmap [config-name] --from-file=[path-file] eg: kubectl create configmap simple-web-app-config --from-file=app-config.yml
+```
+
+<h6>Inject all config map into k8s</h6>
+```
+envFrom:
+    - configMapRef:
+        <!--  app-config: name of config map defined in app-configmap.yml -->
+        name: app-config
+```
+
+<h6>Inject single key into k8s</h6>
+```
+env:
+    - name: APP_COLOR
+      valueFrom:
+        configMapKeyRef:
+            <!--  app-config: name of config map defined in app-configmap.yml -->
+            name: app-config
+            key: APP_COLOR
+```
+
+<h6>Inject volume into k8s</h6>
+```
+volumes:
+    - name: app-config-volume
+      configMap:
+        <!--  app-config: name of config map defined in app-configmap.yml -->
+        name: app-config
+```
+
+## Secret
+
+Use secret to store sensitive data such as password (password must be encoded data to security. Secret is not encrypted. Only encoded)
+
+<h6>Encoded data in linux/macos</h6>
+
+```
+echo -n "mysql" | base64
+result is: bXlzcWw=
+```
+
+<h6>Decoded data in linux/macos</h6>
+
+```
+echo -n "bXlzcWw=" | base64 --decode
+result is: mysql
+```
+
+<h6>Create secret without file</h6>
+
+```
+kubectl create secret generic [secret-name] --from-literal=[key]=[value] eg: kubectl create secret generic app-secret --from-literal=DB_HOST=mysql --from-literal=DB_USER=root --from-literal=DB_PASSWORD=123456
+```
+
+<h6>Create secret from file</h6>
+```
+kubectl create secret generic [secret-name] --from-file=[path-file] eg: kubectl create secret generic app-secret --from-file=app-secret.yml
+```
+
+<h6>Inject all secret into k8s</h6>
+```
+envFrom:
+    - secretRef:
+        <!--  app-secret: name of config map defined in app-secret.yml -->
+        name: app-secret
+```
+
+<h6>Inject single secret key into k8s</h6>
+```
+env:
+    - name: DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+            <!--  app-secret: name of config map defined in app-secret.yml -->
+            name: app-secret
+            key: DB_PASSWORD
+```
+
+<h6>Inject volume into k8s</h6>
+```
+volumes:
+    - name: app-secret-volume
+      configMap:
+       <!--  app-secret: name of config map defined in app-secret.yml -->
+        name: app-secret
+```
